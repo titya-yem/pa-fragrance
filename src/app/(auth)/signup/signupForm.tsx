@@ -13,7 +13,8 @@ const LoginForm = () => {
   });
   const [buttonDisabled, setButtonDisabled] = useState(false);
 
-  const onSignup = async () => {
+  const onSignup = async (event: React.FormEvent) => {
+    event.preventDefault();
     try {
       const response = await axios.post("/api/signup", user);
       console.log("Sign Up successfully", response.data);
@@ -38,7 +39,10 @@ const LoginForm = () => {
 
   return (
     <>
-      <form className="flex flex-col justify-between items-center gap-4 *:flex *:items-center *:gap-4">
+      <form
+        onSubmit={onSignup}
+        className="flex flex-col justify-between items-center gap-4 *:flex *:items-center *:gap-4"
+      >
         <div>
           <label htmlFor="username" className="text-lg mr-7">
             Name
@@ -82,7 +86,8 @@ const LoginForm = () => {
           />
         </div>
         <button
-          onClick={onSignup}
+          type="submit"
+          disabled={buttonDisabled}
           className="cta-two rounded-sm duration-200 w-[82%] mt-6 text-center flex items-center justify-center py-2"
         >
           {buttonDisabled ? "Please fill the form to Sign Up" : "Sign Up"}

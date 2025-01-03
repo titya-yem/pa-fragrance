@@ -4,23 +4,33 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 
 const LoginForm = () => {
+  const router = useRouter();
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
-  const onLogin = async () => {
+  const onLogin = async (event: React.FormEvent) => {
+    event.preventDefault();
     try {
-      const response = await axios.post("/api/auth/login", user);
-      // handle response
-    } catch (error) {
-      // handle error
+      const response = await axios.post("/api/login", user);
+      localStorage.setItem("token", response.data.token);
+      setButtonDisabled(true);
+      router.push("/");
+      console.log("Login successfully", response.data);
+    } catch (error: any) {
+      setButtonDisabled(false);
+      console.log("Login failed", error.message);
     }
   };
 
   return (
     <>
-      <form className="flex flex-col justify-between items-center gap-4 *:flex *:items-center *:gap-4">
+      <form
+        onSubmit={onLogin}
+        className="flex flex-col justify-between items-center gap-4 *:flex *:items-center *:gap-4"
+      >
         <div>
           <label htmlFor="email" className="text-lg mr-8">
             Email
@@ -50,7 +60,8 @@ const LoginForm = () => {
           />
         </div>
         <button
-          onClick={onLogin}
+          disabled={buttonDisabled}
+          type="submit"
           className="cta-two rounded-sm duration-200 w-11/12 mt-6 text-center flex items-center justify-center py-2"
         >
           Login

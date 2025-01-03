@@ -16,9 +16,9 @@ const Navbar = () => {
           />
         </Link>
 
-        <ul className="flex-container gap-8 md:text-lg">
+        <ul className="flex-container gap-6 md:text-lg">
           {NavBarLists.map((list) => (
-            <li key={list.name} className="flex items-center nav">
+            <li key={list.name} className="flex items-center">
               <Link href={list.href}>{list.name}</Link>
             </li>
           ))}

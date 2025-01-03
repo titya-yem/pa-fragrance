@@ -1,45 +1,56 @@
-import connectDB from "@/config/connectDB";
-import User from "@/models/userModel";
 import { NextRequest, NextResponse } from "next/server";
-import bcryptjs from "bcryptjs";
+import { validateSignup } from "@/libs/validation";
+import bcrypt from "bcryptjs";
+import prisma from "@/libs/prisma";
 
-connectDB();
-
-export async function POST(request: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
-    const reqBody = await request.json();
-    const { name, email, password } = reqBody;
-    console.log(reqBody);
+    const body = await req.json();
+    const validation = validateSignup.safeParse(body);
+
+    // check if validation is success
+    if (!validation.success) {
+      return NextResponse.json(
+        { error: validation.error.format() },
+        { status: 400 }
+      );
+    }
+
+    // get data from validation
+    const { name, email, password } = validation.data;
 
     // check if user already exists
-    const user = await User.findOne({ email });
+    const findUser = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
 
-    if (user) {
+    if (findUser) {
       return NextResponse.json(
-        { error: "User already exitst" },
+        { error: "User already exists" },
         { status: 400 }
       );
     }
 
     // hash password
-    const salt = await bcryptjs.genSalt(10);
-    const hashedPassword = await bcryptjs.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = new User({
-      name,
-      email,
-      password: hashedPassword,
+    // create new user in database
+    const newUser = await prisma.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+      },
     });
 
-    const savedUser = await newUser.save();
-    console.log(savedUser);
-
-    return NextResponse.json({
-      message: "User Created successfully",
-      success: true,
-      savedUser,
-    });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json(newUser, { status: 201 });
+  } catch (error) {
+    console.log("Error create user", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }

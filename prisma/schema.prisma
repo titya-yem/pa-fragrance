@@ -13,8 +13,9 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Signup {
+model User {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
   email     String   @unique
   password  String
   role      Role     @default(USER)
@@ -24,4 +25,11 @@ model Signup {
 enum Role {
   USER
   ADMIN
+}
+
+model FooterForm {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  message   String
+  createdAt DateTime @default(now())
 }
