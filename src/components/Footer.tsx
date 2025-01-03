@@ -36,7 +36,10 @@ const Footer = () => {
   return (
     <footer className="container">
       <div className="flex flex-col md:flex-row justify-between items-center md:items-start">
+        {/* Footer right */}
         <FooterForm />
+
+        {/* Footer left */}
         <div className="w-1/2">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-medium italic text-center mb-10 mt-10 md:mt-0">
             Email

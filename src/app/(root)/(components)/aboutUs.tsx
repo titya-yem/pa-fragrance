@@ -1,5 +1,5 @@
 import Image from "next/image";
-import PaFragranceSet from "../../public/About section.png";
+import PaFragranceSet from "../../../../public/About section.png";
 
 const page = () => {
   return (

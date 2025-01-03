@@ -1,8 +1,8 @@
 import Footer from "@/components/Footer";
-import History from "@/components/History";
+import History from "@/app/(root)/(components)/History";
 import Navbar from "@/components/Navbar";
-import Product from "@/components/Product";
-import AboutUs from "@/components/aboutUs";
+import Product from "@/app/(root)/(components)/Product";
+import AboutUs from "@/app/(root)/(components)/aboutUs";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (

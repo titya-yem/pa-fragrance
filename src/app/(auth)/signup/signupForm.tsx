@@ -83,7 +83,7 @@ const LoginForm = () => {
         </div>
         <button
           onClick={onSignup}
-          className="cta-two rounded-sm duration-200 w-11/12 mt-6 text-center flex items-center justify-center py-2"
+          className="cta-two rounded-sm duration-200 w-[82%] mt-6 text-center flex items-center justify-center py-2"
         >
           {buttonDisabled ? "Please fill the form to Sign Up" : "Sign Up"}
         </button>

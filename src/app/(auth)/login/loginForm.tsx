@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { axios } from "axios";
+import axios from "axios";
 
 const LoginForm = () => {
   const [user, setUser] = useState({
@@ -9,7 +9,14 @@ const LoginForm = () => {
     password: "",
   });
 
-  const onLogin = async () => {};
+  const onLogin = async () => {
+    try {
+      const response = await axios.post("/api/auth/login", user);
+      // handle response
+    } catch (error) {
+      // handle error
+    }
+  };
 
   return (
     <>

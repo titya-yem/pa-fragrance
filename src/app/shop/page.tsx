@@ -1,14 +1,6 @@
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import data from "@/app/shop/data";
-
-interface dataType {
-  id: number;
-  img: StaticImageData;
-  name: string;
-  price: number;
-  infoBrand: string;
-  infoText: string;
-}
+import { dataType } from "@/types";
 
 const shop = () => {
   return (

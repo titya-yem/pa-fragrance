@@ -1,5 +1,5 @@
 import Image from "next/image";
-import FounderImg from "../../public/Founder img.jpg";
+import FounderImg from "../../../../public/Founder img.jpg";
 
 const History = () => {
   return (

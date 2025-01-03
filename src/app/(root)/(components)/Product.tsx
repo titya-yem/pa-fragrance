@@ -1,6 +1,6 @@
 import Image from "next/image";
-import PaWord from "../../public/Pa Word.png";
-import LimitedPaper from "../../public/Limited paper.png";
+import PaWord from "../../../../public/Pa Word.png";
+import LimitedPaper from "../../../../public/Limited paper.png";
 
 const Product = () => {
   return (
