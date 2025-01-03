@@ -1,40 +1,40 @@
 "use client";
 
 import { FooterInfo } from "@/types";
+import axios from "axios";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 const FooterForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const emailInputRef = useRef<HTMLInputElement>(null);
-  const messageInputRef = useRef<HTMLTextAreaElement>(null);
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FooterInfo>();
 
-  const onSubmit = (data: FooterInfo) => {
+  const onSubmit = async (data: FooterInfo) => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
-      formRef.current?.reset();
+      await axios.post("/api/question", data);
+      toast.success("Thank you! Your message has been sent.");
+      reset();
       focusEmailInput();
-      focusMessageInput();
-      console.log(data);
-      // TODO: Send data to backend using axios library
-    } catch (error) {
-      console.log(errors);
+    } catch (error: any) {
+      console.error("Error submitting question:", error);
+      toast.error("Failed to send your message. Please try again.");
+    } finally {
       setIsLoading(false);
     }
   };
 
   const focusEmailInput = () => {
     emailInputRef.current?.focus();
-  };
-  const focusMessageInput = () => {
-    messageInputRef.current?.focus();
   };
 
   return (
@@ -43,7 +43,6 @@ const FooterForm = () => {
         Contact
       </h1>
 
-      {/* Form */}
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-6 text-sm lg:text-base sm:w-3/5 lg:w-[70%] sm:mx-auto"
@@ -53,29 +52,31 @@ const FooterForm = () => {
           className="p-6 rounded-md text-black bg-white"
           type="email"
           placeholder="Email"
-          required
-          {...register("email")}
+          {...register("email", { required: "Email is required" })}
           ref={(e) => {
             register("email").ref(e);
             emailInputRef.current = e;
           }}
         />
+        {errors.email && (
+          <p className="text-red-500 text-xs">{errors.email.message}</p>
+        )}
+
         <textarea
           className="p-3 rounded-md text-black bg-white h-36"
           placeholder="Message Us"
-          required
-          {...register("message")}
-          ref={(e) => {
-            register("message").ref(e);
-            messageInputRef.current = e;
-          }}
+          {...register("message", { required: "Message is required" })}
         ></textarea>
+        {errors.message && (
+          <p className="text-red-500 text-xs">{errors.message.message}</p>
+        )}
+
         <button
           className="cta-two rounded-md duration-200"
           disabled={isLoading}
           type="submit"
         >
-          Send Email
+          {isLoading ? "Sending..." : "Send Email"}
         </button>
       </form>
     </div>

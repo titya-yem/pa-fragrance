@@ -16,8 +16,7 @@ const LoginForm = () => {
   const onSignup = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const response = await axios.post("/api/signup", user);
-      console.log("Sign Up successfully", response.data);
+      await axios.post("/api/signup", user);
       router.push("/login");
     } catch (error: any) {
       console.log("Sign Up failed", error.message);

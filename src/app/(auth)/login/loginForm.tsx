@@ -18,7 +18,6 @@ const LoginForm = () => {
       localStorage.setItem("token", response.data.token);
       setButtonDisabled(true);
       router.push("/");
-      console.log("Login successfully", response.data);
     } catch (error: any) {
       setButtonDisabled(false);
       console.log("Login failed", error.message);

@@ -10,3 +10,8 @@ export const validateSignup = z.object({
   email: z.string().email(),
   password: z.string().min(8),
 });
+
+export const validateQuestion = z.object({
+  email: z.string().email(),
+  message: z.string().min(10),
+});
