@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { AxiosError } from "axios";
 
-const LoginForm = () => {
+const SignupForm = () => {
   const router = useRouter();
   const [user, setUser] = useState({
     name: "",
@@ -18,9 +19,12 @@ const LoginForm = () => {
     try {
       await axios.post("/api/signup", user);
       router.push("/login");
-    } catch (error: any) {
-      console.log("Sign Up failed", error.message);
-      toast.error(error.message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const errorMessage = error.response?.data?.error || "Signup failed";
+        console.log("Sign Up failed", errorMessage);
+        toast.error(errorMessage);
+      }
     }
   };
 
@@ -87,7 +91,7 @@ const LoginForm = () => {
         <button
           type="submit"
           disabled={buttonDisabled}
-          className="cta-two rounded-sm duration-200 w-[82%] mt-6 text-center flex items-center justify-center py-2"
+          className="cta-two rounded-sm duration-200 w-full mt-4 text-center flex items-center justify-center py-2"
         >
           {buttonDisabled ? "Please fill the form to Sign Up" : "Sign Up"}
         </button>
@@ -96,4 +100,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default SignupForm;

@@ -1,7 +1,7 @@
 import { validateLogin } from "@/libs/validation";
 import { compare } from "bcryptjs";
 import { sign } from "jsonwebtoken";
-import prisma from "@/libs/prisma";
+import { prisma } from "@/libs/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {

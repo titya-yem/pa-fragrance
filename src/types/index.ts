@@ -18,3 +18,10 @@ export interface dataType {
   infoBrand: string;
   infoText: string;
 }
+
+export interface User {
+  id?: string;
+  name: string;
+  email: string;
+  password: string;
+}

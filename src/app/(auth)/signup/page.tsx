@@ -1,20 +1,20 @@
 import Image from "next/image";
+import SignupForm from "./signupForm";
 import PaWord from "../../../../public/Pa Word.png";
-import SignupForm from "@/app/(auth)/signup/signupForm";
 
-const login = () => {
+export default function SignupPage() {
   return (
-    <main className="border border-[#fed42d] w-[400px] py-4 rounded-md mx-auto mb-28">
-      <Image
-        className="mx-auto lg:w-24 mb-2"
-        src={PaWord}
-        width={80}
-        alt="Pa word official in Khmer alphabet"
-      />{" "}
+    <main className="flex flex-col justify-center items-center border border-[#fed42d] w-[400px] py-4 rounded-md mx-auto mb-24">
+      <div className="flex justify-center items-center">
+        <Image
+          src={PaWord}
+          width={100}
+          alt="Pa word official in Khmer alphabet"
+          className="mb-2"
+        />
+      </div>
       <h1 className="text-center mb-8 text-2xl italic font-medium">Sign Up</h1>
       <SignupForm />
     </main>
   );
-};
-
-export default login;
+}
